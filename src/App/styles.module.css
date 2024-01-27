@@ -1,0 +1,23 @@
+form {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+form label {
+  margin-left: 0.5rem;
+}
+
+form input {
+  flex-grow: 1;
+  display: block;
+  width: auto;
+  background: transparent;
+  border: none;
+  color:chartreuse;
+  padding: 0.5rem;
+}
+
+form input:focus {
+  outline: none;
+}
