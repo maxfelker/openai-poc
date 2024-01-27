@@ -21,3 +21,8 @@ form input {
 form input:focus {
   outline: none;
 }
+
+p span {
+  background-color: rgba(9, 174, 211, 0.5);
+  cursor: pointer;  
+}
