@@ -1,0 +1,12 @@
+.messageContainer {
+  padding:1rem;
+}
+
+.user {
+  text-align: right;
+}
+
+.assistant {
+  text-align: left;
+  color: white;
+}
