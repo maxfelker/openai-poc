@@ -1,14 +1,13 @@
 import { useState, useEffect, useCallback } from 'react';
-import styles from './styles.module.css';
-import { createMessage } from '../service.messages';
 import PropTypes from 'prop-types';
+import { createMessage } from '../service.messages';
+import styles from './styles.module.css';
 
 ChatBar.propTypes = {
   onMessageCreated: PropTypes.func.isRequired,
 };
 
 export default function ChatBar(props) {
-
   const { onMessageCreated } = props;
   const [inputValue, setInputValue] = useState('');
   const [history, setHistory] = useState([]);
