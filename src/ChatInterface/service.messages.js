@@ -1,12 +1,8 @@
 export async function getMessages() {
-  const messages = [
-    { role: "assistant", text: 'This natural language proof-of-concept is powered by artificial intelligence using OpenAI - experiences will vary.' },
-    { role: "assistant", text: 'Get started by asking a question or using the /help command' },
-  ]
+  const messages = JSON.parse(sessionStorage.getItem('messages'));
+
   return new Promise((resolve) => {
-    setTimeout(() => {
-      resolve(messages);
-    }, 500);
+    resolve(messages);
   });
 }
 
@@ -21,13 +17,9 @@ export async function createMessage(inputValue) {
   });
 
   const aiResponse = await response.json();
+  const existingMessages = JSON.parse(sessionStorage.getItem('messages'));
+  const newMessages = [...existingMessages, { role: "user", text: inputValue}, { role: "assistant", text: aiResponse}];
+  sessionStorage.setItem('messages', JSON.stringify(newMessages));
 
-  const messages = [
-    { role: "assistant", text: 'This natural language proof-of-concept is powered by artificial intelligence using OpenAI - experiences will vary.' },
-    { role: "assistant", text: 'Get started by asking a question or using the /help command' },
-    { role: "user", text: inputValue},
-    { role: "assistant", text: aiResponse}
-  ]
-  
-  return messages;
+  return newMessages;
 }

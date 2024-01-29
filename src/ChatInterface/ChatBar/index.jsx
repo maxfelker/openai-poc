@@ -24,7 +24,13 @@ export default function ChatBar(props) {
     event.preventDefault();
     setHistory(prevHistory => [...prevHistory, inputValue]);
     setInputValue('');
-    newMessage(inputValue);
+    if(inputValue === '/clear' || inputValue === '/c') {
+      sessionStorage.setItem('messages', JSON.stringify([]));
+      onMessageCreated([]);
+    } else {
+      newMessage(inputValue);
+    }
+      
   }, [setHistory, setInputValue, inputValue, onMessageCreated]);
 
   useEffect(function() {

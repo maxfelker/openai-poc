@@ -6,6 +6,7 @@ form {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  background-color: rgba(0, 0, 0, 0.95);
 }
 
 form input {
@@ -17,6 +18,11 @@ form input {
   color:chartreuse;
   padding: 2rem;
   font-size: 100%;
+}
+
+::placeholder {
+  color: lightgreen;
+  opacity: 1; 
 }
 
 form input:focus {
