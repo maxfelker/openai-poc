@@ -4,11 +4,12 @@ import { createMessage } from '../service.messages';
 import styles from './styles.module.css';
 
 ChatBar.propTypes = {
+  onAttemptCreateMessage: PropTypes.func.isRequired,
   onMessageCreated: PropTypes.func.isRequired,
 };
 
 export default function ChatBar(props) {
-  const { onMessageCreated } = props;
+  const { onMessageCreated, onAttemptCreateMessage } = props;
   const [inputValue, setInputValue] = useState('');
   const [history, setHistory] = useState([]);
 
@@ -17,18 +18,31 @@ export default function ChatBar(props) {
   }
 
   const handleFormSubmit = useCallback(function(event) {
+    
     async function newMessage(inputValue) {
       const response = await createMessage(inputValue);
       onMessageCreated(response);
     }
+
+    onAttemptCreateMessage(inputValue);
+
     event.preventDefault();
     setHistory(prevHistory => [...prevHistory, inputValue]);
     setInputValue('');
-    if(inputValue === '/clear' || inputValue === '/c') {
-      sessionStorage.setItem('messages', JSON.stringify([]));
-      onMessageCreated([]);
-    } else {
-      newMessage(inputValue);
+
+    switch(inputValue) {
+      case '/help':
+        console.log('Available commands:');
+        onMessageCreated();
+        break;
+      case '/clear':
+      case '/c':
+        sessionStorage.setItem('messages', JSON.stringify([]));
+        onMessageCreated([]);
+        break;
+      default:
+        newMessage(inputValue);
+        break;
     }
       
   }, [setHistory, setInputValue, inputValue, onMessageCreated]);
@@ -46,7 +60,7 @@ export default function ChatBar(props) {
   }, [handleFormSubmit]);
 
   return (
-    <form name="terminal" onSubmit={handleFormSubmit}>
+    <form name="chartBar" onSubmit={handleFormSubmit}>
       <input 
         placeholder="Use /help to see all the commands" 
         name="chatInput" 
