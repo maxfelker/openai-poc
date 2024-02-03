@@ -38,3 +38,18 @@ docker compose up --build release
 ```
 
 This will run the API locally at [http://localhost](http://localhost) (port 80). The `release` service is a transpiled version of the React src and a light weight nginx distro intended for production environments.
+
+
+## Building for ACR 
+
+We can use the AZ CLI tool to do this. First, login:
+
+```bash
+az login
+```
+
+Next, do the build and push change manually:
+
+```bash
+az acr build --image openai-poc/release:latest --registry maxfelkershared .
+```
