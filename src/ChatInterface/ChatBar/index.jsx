@@ -31,12 +31,9 @@ export default function ChatBar(props) {
     setInputValue('');
 
     switch(inputValue) {
-      case '/help':
-        console.log('Available commands:');
-        onMessageCreated();
-        break;
       case '/clear':
       case '/c':
+      case 'clear':
         sessionStorage.setItem('messages', JSON.stringify([]));
         onMessageCreated([]);
         break;
@@ -45,7 +42,7 @@ export default function ChatBar(props) {
         break;
     }
       
-  }, [setHistory, setInputValue, inputValue, onMessageCreated]);
+  }, [setHistory, setInputValue, inputValue, onMessageCreated, onAttemptCreateMessage]);
 
   useEffect(function() {
     function handleEnterPress(event) {

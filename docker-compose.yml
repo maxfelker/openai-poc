@@ -8,10 +8,6 @@ services:
       dockerfile: ./Dockerfile.dev
     environment:
       VITE_API_BASE_URL: ${VITE_API_BASE_URL}
-      VITE_BUILD_BASE_URL:  ${VITE_BUILD_BASE_URL}
-      VITE_BUILD_VERSION: ${VITE_BUILD_VERSION}
-      VITE_AZURE_CONFIG_URL: ${VITE_AZURE_CONFIG_URL}
-      VITE_CHARACTER_FBX_URL: ${VITE_CHARACTER_FBX_URL}
       PORT: 5173
     ports:
       - 5173:5173
@@ -25,7 +21,7 @@ services:
       context: .
       dockerfile: ./Dockerfile
     environment:
+      API_BASE_URL: ${VITE_API_BASE_URL}
       PORT: 80
-      AZURE_CONFIG_URL: ${VITE_AZURE_CONFIG_URL}
     ports:
       - 80:80

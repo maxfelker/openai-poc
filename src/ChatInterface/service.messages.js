@@ -7,8 +7,9 @@ export async function getMessages() {
 }
 
 export async function createMessage(inputValue) {
-
-  const response = await fetch('http://localhost:8000/chat', {
+  const baseUrl = localStorage.getItem('api-base-url');
+  const url = `${baseUrl}/chat`;  
+  const response = await fetch(url, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'

@@ -11,9 +11,7 @@ export default function Message(props) {
   const messageClass = `${styles.messageContainer} ${styles[role]}`;
 
   return (
-    <div className={messageClass}>
-      {text}
-    </div>
+    <div className={messageClass} dangerouslySetInnerHTML={{ __html: text }}></div>
   )
 }
 
