@@ -10,3 +10,7 @@
   text-align: left;
   color: white;
 }
+
+.messageContainer img {
+  display: block;
+}

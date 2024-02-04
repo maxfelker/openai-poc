@@ -6,24 +6,31 @@ import Loader from './Loader';
 
 export default function ChatInterface() {
   const [messages, setMessages] = useState([]);
-  const [loading, setLoading] = useState();
+  const [loading, setLoading] = useState(false);
 
-    async function fetchMessages() {
-      setLoading(true);
-      const response = await getMessages();
-      setMessages(response);
-      setLoading(false);
-    }
+  async function fetchMessages() {
+    setLoading(true);
+    const response = await getMessages();
+    setMessages(response);
+    setLoading(false);
+  }
 
-    useEffect(() => {
-        fetchMessages();
-    }, []);
+  function handleAttemptCreateMessage() {
+    setLoading(true);
+  }
 
-    return (
-      <>
-        <MessageList messages={messages} />
-        <ChatBar onMessageCreated={fetchMessages} onAttemptCreateMessage={()=> setLoading(true)} />
-        {loading && <Loader />}
-      </>
-    );
+  useEffect(() => {
+    fetchMessages();
+  }, []);
+
+  return (
+    <>
+      <ChatBar 
+        onMessageCreated={fetchMessages} 
+        onAttemptCreateMessage={handleAttemptCreateMessage} 
+        />
+      <MessageList messages={messages} />
+      {loading && <Loader />}
+    </>
+  );
 }

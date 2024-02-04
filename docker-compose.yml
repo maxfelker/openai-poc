@@ -22,6 +22,7 @@ services:
       dockerfile: ./Dockerfile
     environment:
       API_BASE_URL: ${VITE_API_BASE_URL}
+      GTAG: ${GTAG}
       PORT: 80
     ports:
       - 80:80

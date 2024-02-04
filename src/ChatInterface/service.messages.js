@@ -17,9 +17,12 @@ export async function createMessage(inputValue) {
     body: JSON.stringify({message: inputValue})
   });
 
-  const aiResponse = await response.json();
+  const responseJSON = await response.json();
+  if(responseJSON.error){
+    throw new Error(responseJSON.error);
+  }
   const existingMessages = JSON.parse(sessionStorage.getItem('messages'));
-  const newMessages = [...existingMessages, { role: "user", text: inputValue}, { role: "assistant", text: aiResponse}];
+  const newMessages = [...existingMessages, { role: "user", text: inputValue}, { role: "assistant", text: responseJSON}];
   sessionStorage.setItem('messages', JSON.stringify(newMessages));
 
   return newMessages;

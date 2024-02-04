@@ -10,6 +10,10 @@ if(!localStorage.getItem('api-base-url')) {
   localStorage.setItem('api-base-url', window.API_BASE_URL);
 }
 
+if(!localStorage.getItem('first-visit')) {
+  localStorage.setItem('first-visit', true);
+}
+
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     <App />

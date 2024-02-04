@@ -9,9 +9,24 @@
     </script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Max Felker</title>
+    <meta property="og:site_name" content="Max Felker"/>
+    <meta property="og:title" content="Max Felker" />
+    <meta name="description" content="Innovation is my superpower"/>
+    <meta property="og:description" content="Innovation is my superpower"/>
+    <meta property="og:image" content="upside-down.jpg" />
+    <link rel="apple-touch-icon" href="upside-down.jpg" />
+    <meta property="og:url" content="https://maxfelker.com">
   </head>
   <body>
     <div id="root"></div>
     <script type="module" src="/src/main.jsx"></script>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=--GTAG--"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', '--GTAG--');
+    </script>
   </body>
 </html>

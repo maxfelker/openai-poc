@@ -10,26 +10,38 @@ ChatBar.propTypes = {
 
 export default function ChatBar(props) {
   const { onMessageCreated, onAttemptCreateMessage } = props;
-  const [inputValue, setInputValue] = useState('');
+  const initValue = localStorage.getItem('first-visit') === 'false' ? '' : '/about';
+  const [inputValue, setInputValue] = useState(initValue);
   const [history, setHistory] = useState([]);
+  const [error, setError] = useState('');
 
   function handleInputChange(event) {
     setInputValue(event.target.value);
   }
 
-  const handleFormSubmit = useCallback(function(event) {
-    
-    async function newMessage(inputValue) {
+  const newMessage = useCallback(async (inputValue) => {
+    try {
       const response = await createMessage(inputValue);
       onMessageCreated(response);
+      setError('');
+    } catch (e) {
+      setError(e.message)
     }
+  }, [onMessageCreated]);
 
-    onAttemptCreateMessage(inputValue);
-
+  const handleFormSubmit = useCallback(function(event) {
     event.preventDefault();
-    setHistory(prevHistory => [...prevHistory, inputValue]);
-    setInputValue('');
+    setError('');
 
+    if(inputValue === '' || inputValue.length < 3) {
+      setError('The message is too short');
+      return;
+    }
+    
+    setInputValue('');
+    onAttemptCreateMessage();
+    setHistory(prevHistory => [...prevHistory, inputValue]);
+  
     switch(inputValue) {
       case '/clear':
       case '/c':
@@ -42,30 +54,45 @@ export default function ChatBar(props) {
         break;
     }
       
-  }, [setHistory, setInputValue, inputValue, onMessageCreated, onAttemptCreateMessage]);
+  }, [setHistory, setInputValue, inputValue, onMessageCreated, onAttemptCreateMessage,newMessage]);
 
-  useEffect(function() {
-    function handleEnterPress(event) {
-      if (event.key === 'Enter') {
-        handleFormSubmit(event);
+  useEffect(() => {
+    if (localStorage.getItem('first-visit') === 'true') {
+      const cmd = '/about';
+      const event = {
+        target: {
+          value: cmd
+        },
+        preventDefault: () => localStorage.setItem('first-visit', false)
       }
+      handleFormSubmit(event);
+      setInputValue('');
     }
-    window.addEventListener('keydown', handleEnterPress);
-    return function cleanup() {
-      window.removeEventListener('keydown', handleEnterPress);
-    };
-  }, [handleFormSubmit]);
+  }, [handleFormSubmit, onAttemptCreateMessage]);
+
+  function isDisabled() {
+    return inputValue.length < 3 || inputValue.length > 50;
+  }
 
   return (
-    <form name="chartBar" onSubmit={handleFormSubmit}>
+    <form name="chatBar" onSubmit={handleFormSubmit}>
+      {error && <div className={styles.errorContainer}>
+        <p>{error}</p>
+      </div>
+      }
       <input 
         placeholder="Use /help to see all the commands" 
-        name="chatInput" 
+        name="chatBarInput" 
         type="text" 
         autoFocus 
         value={inputValue} 
         onChange={handleInputChange} 
+        maxLength={50}
+        required
         />
+      <button 
+        type="submit"
+        onClick={handleFormSubmit}>Send</button>
     </form>
   );
 }
